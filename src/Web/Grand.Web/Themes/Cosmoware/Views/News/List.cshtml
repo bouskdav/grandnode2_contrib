@@ -1,0 +1,38 @@
+﻿@model NewsItemListModel
+@inject IPageHeadBuilder pagebuilder
+@{
+    Layout = "_TwoColumns";
+
+    //title
+    pagebuilder.AddTitleParts(Loc["Title.NewsArchive"]);
+}
+<div class="page news-list-page">
+    <h1 class="generalTitle h2"> @Loc["News"]</h1>
+    @await Component.InvokeAsync("Widget", new { widgetZone = "newslist_page_before_items" })
+    <div class="news-items row">
+        @foreach (var item in Model.NewsItems)
+        {
+            <div class="col-xl-6 col-12 mb-4">
+                <b-card class="h-100" @if (item.PictureModel != null && !string.IsNullOrEmpty(item.PictureModel.ImageUrl)) { <text> img-src="@item.PictureModel.ImageUrl" img-alt="@item.PictureModel.AlternateText" </text> }>
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <b-link href="@Url.RouteUrl("NewsItem", new { SeName = item.SeName })">
+                                @item.Title
+                            </b-link>
+                        </h5>
+                        <h6 class="card-subtitle">
+                            <small class="date-text">@item.CreatedOn.ToString("D")</small>
+                        </h6>
+                        <b-card-text class="mt-2">
+                            @Html.Raw(item.Short)
+                        </b-card-text>
+                    </div>
+                </b-card>
+            </div>
+        }
+        <page-navigation asp-query-param="pagenumber" asp-pagination="Model.PagingFilteringContext" />
+        
+        @await Component.InvokeAsync("Widget", new { widgetZone = "newslist_page_after_items" })
+    </div>
+
+</div>

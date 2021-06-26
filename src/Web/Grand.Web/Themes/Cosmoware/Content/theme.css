@@ -1,0 +1,13 @@
+﻿.category-card .card-img-overlay {
+    box-shadow: inset 100vw 0 0 rgba(100,100,100,0.5);
+    transition: box-shadow linear 0.3s;
+}
+
+    .category-card .card-img-overlay .card-title.text-white {
+        text-shadow: 0 0 10px rgba(255,255,255,0.25);
+        transition: text-shadow linear 0.3s;
+    }
+
+.category-card:hover .card-img-overlay {
+    box-shadow: unset;
+}

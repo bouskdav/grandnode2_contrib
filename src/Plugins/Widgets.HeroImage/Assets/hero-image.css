@@ -1,0 +1,14 @@
+﻿.hero-image {
+    background-image: url("https://s14.postimg.cc/5i4g1gqwh/Untitled-1.jpg");
+    height: 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+@media (max-width: 991px) {
+    .header-nav {
+        margin-bottom: 0px;
+    }
+}

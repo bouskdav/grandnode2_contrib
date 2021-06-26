@@ -1,0 +1,55 @@
+﻿@using Grand.Infrastructure
+@using Grand.Web.Common.Page
+@using Grand.Web.Common.Themes
+@model PublicInfoModel
+@inject IWorkContext workContext
+@inject IPageHeadBuilder pagebuilder
+@inject IThemeContext themeContext
+
+<link rel="stylesheet" type="text/css" asp-src="/Plugins/Widgets.HeroImage/Assets/hero-image.css" />
+<script asp-location="Header">
+    document.addEventListener('DOMContentLoaded', function () {
+        // fire if first slide has set full width
+        if (document.querySelector('#hero').getAttribute('data-width') == 'full') {
+            var mainContainer = document.querySelector(".main-container");
+            var heroImage = document.getElementById("hero");
+            var parentDiv = mainContainer.parentNode;
+
+            parentDiv.insertBefore(heroImage, mainContainer);
+        }
+    });
+</script>
+
+@if (!String.IsNullOrEmpty(Model.Image.AdditionalCss))
+{
+    <style asp-location="Header">
+        @Html.Raw(Model.Image.AdditionalCss)
+    </style>
+}
+
+<div id="hero" class="hero-image" style="background-image: url(@Model.Image.PictureUrl)" data-width="@(Model.Image.FullWidth ? "full" : "")">
+    @Html.Raw(Model.Image.HtmlContent)
+    <!--<div class="hero-text">
+        <h1 style="font-style: Georgia; color: #fff; font-size:50px;">Canada Goose</h1>
+        <p>spring styles have arrived</p>
+        <button>SHOP NOW</button>
+    </div>
+    <div class="hero-exclusions">
+        <a href="#popup1">
+            <p class="exclusions">*click here for details</p>
+        </a>
+    </div>
+
+    <div id="popup1" class="overlay">
+        <div class="popup">
+            <a class="close" href="#">&times;</a>
+            <div class="content">
+                <br><br>
+                <h2>Promotional Information & Exclusions</h2>
+                This is a list of exclusions
+                <br><br><br>
+            </div>
+        </div>
+    </div>-->
+    <!--lightbox style popup goes here-->
+</div>

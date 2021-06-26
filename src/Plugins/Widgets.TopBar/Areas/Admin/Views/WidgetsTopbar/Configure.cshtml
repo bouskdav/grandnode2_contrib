@@ -1,0 +1,128 @@
+﻿@{
+    Layout = "_ConfigurePlugin";
+}
+@model Widgets.Topbar.Models.ConfigurationModel
+
+@await Component.InvokeAsync("StoreScope")
+@{
+    //default values
+    var googleAnalytics_trackingScript = Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode("<!-- Google code for Analytics tracking -->" + "\r\n" +
+        "<script type=\"text/javascript\">" + "\r\n" +
+        "var _gaq = _gaq || [];" + "\r\n" +
+        "_gaq.push(['_setAccount', '{GOOGLEID}']);" + "\r\n" +
+        "_gaq.push(['_trackPageview']);" + "\r\n" +
+        "{ECOMMERCE}" + "\r\n" +
+        "(function() {" + "\r\n" +
+        "var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;" + "\r\n" +
+        "ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';" + "\r\n" +
+        "var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);" + "\r\n" +
+        "})();" + "\r\n" +
+        "</script>"));
+    var googleAnalytics_EcommerceScript = Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode("_gaq.push(['_addTrans', '{ORDERID}', '{SITE}', '{TOTAL}', '{TAX}', '{SHIP}', '{CITY}', '{STATEPROVINCE}', '{COUNTRY}']);" + "\r\n" +
+        "{DETAILS}" + "\r\n" +
+        "_gaq.push(['_trackTrans']); "));
+    var googleAnalytics_EcommerceDetailScript = Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode("_gaq.push(['_addItem', '{ORDERID}', '{PRODUCTSKU}', '{PRODUCTNAME}', '{CATEGORYNAME}', '{UNITPRICE}', '{QUANTITY}' ]); "));
+
+    var universalAnalytics_trackingScript = Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode("<!-- Google code for Analytics tracking -->" + "\r\n" +
+        "<script>" + "\r\n" +
+        "(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){" + "\r\n" +
+        "(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o)," + "\r\n" +
+        "m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)" + "\r\n" +
+        "})(window,document,'script','//www.google-analytics.com/analytics.js','ga');" + "\r\n" +
+        "ga('create', '{GOOGLEID}', 'auto');" + "\r\n" +
+        "ga('send', 'pageview');" + "\r\n" +
+        "{ECOMMERCE}" + "\r\n" +
+        "</script>"));
+    var universalAnalytics_EcommerceScript = Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode("ga('require', 'ecommerce', 'ecommerce.js');" + "\r\n" +
+        "ga('ecommerce:addTransaction', {" + "\r\n" +
+        "'id': '{ORDERID}'," + "\r\n" +
+        "'affiliation': '{SITE}'," + "\r\n" +
+        "'revenue': '{TOTAL}'," + "\r\n" +
+        "'shipping': '{SHIP}'," + "\r\n" +
+        "'tax': '{TAX}'" + "\r\n" +
+        "});" + "\r\n" +
+        "{DETAILS} " + "\r\n" +
+        "ga('ecommerce:send');"));
+    var universalAnalytics_EcommerceDetailScript = Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode("ga('ecommerce:addItem', {" + "\r\n" +
+        "'id': '{ORDERID}'," + "\r\n" +
+        "'name': '{PRODUCTNAME}'," + "\r\n" +
+        "'sku': '{PRODUCTSKU}'," + "\r\n" +
+        "'category': '{CATEGORYNAME}'," + "\r\n" +
+        "'price': '{UNITPRICE}'," + "\r\n" +
+        "'quantity': '{QUANTITY}'" + "\r\n" +
+        "});"));
+}
+<script>
+    @*$(document).ready(function () {
+        $("#pre-configure-google-analytics").click(preConfigureGoogleAnalytic);
+        $("#pre-configure-universal-analytics").click(preConfigureUniversalAnalytic);
+    });
+
+    function preConfigureGoogleAnalytic() {
+        $('#@Html.IdFor(model => model.TrackingScript)').val('@googleAnalytics_trackingScript');
+        $('#@Html.IdFor(model => model.EcommerceScript)').val('@googleAnalytics_EcommerceScript');
+        $('#@Html.IdFor(model => model.EcommerceDetailScript)').val('@googleAnalytics_EcommerceDetailScript');
+    }
+
+    function preConfigureUniversalAnalytic() {
+        $('#@Html.IdFor(model => model.TrackingScript)').val('@universalAnalytics_trackingScript');
+        $('#@Html.IdFor(model => model.EcommerceScript)').val('@universalAnalytics_EcommerceScript');
+        $('#@Html.IdFor(model => model.EcommerceDetailScript)').val('@universalAnalytics_EcommerceDetailScript');
+    }*@
+</script>
+<form asp-controller="WidgetsTopbar" asp-action="Configure" method="post">
+    
+    <div class="form-horizonal">
+        <div class="form-body">
+            <div class="form-group">
+                <div class="note note-info">
+                    <p>
+                        Google Analytics is a free website stats tool from Google. It keeps track of statistics
+                        about the visitors and ecommerce conversion on your website.
+                    </p>
+                    <code>
+                        &lt;b-container :fluid="fluid"&gt;
+                            &lt;div class="row" style="width: 100vw;"&gt;
+                                &lt;div class="col-md"&gt;
+                                    Volejte: &lt;a href="#"&gt;+420 605 934 939&lt;/a&gt; po-pá 9:00-17:00
+                                &lt;/div&gt;
+                                &lt;div class="col-md text-right"&gt;
+                                    &lt;a href="javascript:;"&gt;Doprava zdarma&lt;/a&gt; při nákupu nad 1.000 Kč
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                        &lt;/b-container&gt;
+                    </code>
+                    @*<input type="button" id="pre-configure-google-analytics" class="k-button" value="Pre-configure Google Analytics" />
+                <input type="button" id="pre-configure-universal-analytics" class="k-button" value="Pre-configure Universal Analytics" />*@
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-4 col-sm-4 text-right">
+                    <admin-label asp-for="ShowTopbar" class="control-label" />
+                </div>
+                <div class="col-md-8 col-sm-8">
+                    <label class="mt-checkbox mt-checkbox-outline control control-checkbox">
+                        <admin-input asp-for="ShowTopbar" />
+                        <div class="control__indicator"></div>
+                    </label>
+                    <span asp-validation-for="ShowTopbar"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-4 col-sm-4 text-right">
+                    <admin-label asp-for="TopbarHtml" class="control-label" />
+                </div>
+                <div class="col-md-8 col-sm-8">
+                    <admin-textarea asp-for="TopbarHtml"></admin-textarea>
+                    <span asp-validation-for="TopbarHtml"></span>
+                </div>
+            </div>
+
+        </div>
+        <div class="form-actions">
+            <div class="offset-md-3 offset-sm-3 col-md-9 col-sm-9">
+                <input type="submit" name="save" class="btn green" value="@Loc["Admin.Common.Save"]" />
+            </div>
+        </div>
+    </div>
+</form>
